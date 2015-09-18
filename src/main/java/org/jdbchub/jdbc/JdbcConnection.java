@@ -229,7 +229,7 @@ public class JdbcConnection implements Connection {
 
 	@Override
 	public boolean isValid(int timeout) throws SQLException {
-		return false;
+		return false; // TODO implement
 	}
 
 	@Override
