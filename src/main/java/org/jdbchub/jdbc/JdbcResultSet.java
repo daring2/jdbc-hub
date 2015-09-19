@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-// TODO implement
 public class JdbcResultSet extends EntityList<ResultSet> implements ResultSet {
 
 	private final JdbcStatement<?> statement;
