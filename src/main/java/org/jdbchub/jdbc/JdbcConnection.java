@@ -200,22 +200,22 @@ public class JdbcConnection extends EntityList<Connection> implements Connection
 
 	@Override
 	public Clob createClob() throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		return mainEntity().createClob();
 	}
 
 	@Override
 	public Blob createBlob() throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		return mainEntity().createBlob();
 	}
 
 	@Override
 	public NClob createNClob() throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		return mainEntity().createNClob();
 	}
 
 	@Override
 	public SQLXML createSQLXML() throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		return mainEntity().createSQLXML();
 	}
 
 	@Override
@@ -245,12 +245,12 @@ public class JdbcConnection extends EntityList<Connection> implements Connection
 
 	@Override
 	public Array createArrayOf(String typeName, Object[] elements) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		return mainEntity().createArrayOf(typeName, elements);
 	}
 
 	@Override
 	public Struct createStruct(String typeName, Object[] attributes) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		return mainEntity().createStruct(typeName, attributes);
 	}
 
 	@Override
