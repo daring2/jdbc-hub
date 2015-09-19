@@ -14,7 +14,7 @@ public class JdbcStatement<T extends Statement> extends EntityList<T> implements
 
 	@Override
 	public ResultSet executeQuery(String sql) throws SQLException {
-		return new JdbcResultSet(mapToList(st -> st.executeQuery(sql)));
+		return new JdbcResultSet(this, mapToList(st -> st.executeQuery(sql)));
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class JdbcStatement<T extends Statement> extends EntityList<T> implements
 
 	@Override
 	public ResultSet getResultSet() throws SQLException {
-		return new JdbcResultSet(mapToList(Statement::getResultSet));
+		return new JdbcResultSet(this, mapToList(Statement::getResultSet));
 	}
 
 	@Override
@@ -175,7 +175,7 @@ public class JdbcStatement<T extends Statement> extends EntityList<T> implements
 
 	@Override
 	public ResultSet getGeneratedKeys() throws SQLException {
-		return new JdbcResultSet(mapToList(Statement::getGeneratedKeys));
+		return new JdbcResultSet(this, mapToList(Statement::getGeneratedKeys));
 	}
 
 	@Override
@@ -239,7 +239,7 @@ public class JdbcStatement<T extends Statement> extends EntityList<T> implements
 	}
 
 	@Override
-	public <T> T unwrap(Class<T> iface) throws SQLException {
+	public <A> A unwrap(Class<A> iface) throws SQLException {
 		return mainEntity().unwrap(iface);
 	}
 

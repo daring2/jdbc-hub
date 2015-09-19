@@ -16,7 +16,7 @@ public class JdbcPreparedStatement<T extends PreparedStatement> extends JdbcStat
 
 	@Override
 	public ResultSet executeQuery() throws SQLException {
-		return new JdbcResultSet(mapToList(PreparedStatement::executeQuery));
+		return new JdbcResultSet(this, mapToList(PreparedStatement::executeQuery));
 	}
 
 	@Override
