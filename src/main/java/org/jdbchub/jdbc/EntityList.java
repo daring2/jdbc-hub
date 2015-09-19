@@ -13,6 +13,10 @@ class EntityList<T> {
 		this.entities = entities;
 	}
 
+	T entity(int index) {
+		return entities.get(index);
+	}
+
 	int size() {
 		return entities.size();
 	}

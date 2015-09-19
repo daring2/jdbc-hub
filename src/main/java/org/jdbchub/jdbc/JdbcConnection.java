@@ -144,22 +144,28 @@ public class JdbcConnection extends EntityList<Connection> implements Connection
 
 	@Override
 	public Savepoint setSavepoint() throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		return new JdbcSavepoint(mapToList(Connection::setSavepoint));
 	}
 
 	@Override
 	public Savepoint setSavepoint(String name) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		return new JdbcSavepoint(mapToList(c -> c.setSavepoint(name)));
 	}
 
 	@Override
 	public void rollback(Savepoint savepoint) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		JdbcSavepoint sp = (JdbcSavepoint) savepoint;
+		for (int i = 0; i < size(); i++) {
+			entity(i).rollback(sp.entity(i));
+		}
 	}
 
 	@Override
 	public void releaseSavepoint(Savepoint savepoint) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		JdbcSavepoint sp = (JdbcSavepoint) savepoint;
+		for (int i = 0; i < size(); i++) {
+			entity(i).releaseSavepoint(sp.entity(i));
+		}
 	}
 
 	@Override

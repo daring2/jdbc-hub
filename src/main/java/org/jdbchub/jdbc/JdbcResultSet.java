@@ -22,7 +22,7 @@ public class JdbcResultSet extends EntityList<ResultSet> implements ResultSet {
 	}
 
 	private ResultSet current() {
-		return entities.get(currentIndex);
+		return entity(currentIndex);
 	}
 
 	@Override
