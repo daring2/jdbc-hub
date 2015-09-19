@@ -11,8 +11,8 @@ import java.util.List;
 // TODO implement
 public class JdbcPreparedStatement<T extends PreparedStatement> extends JdbcStatement<T> implements PreparedStatement {
 
-	public JdbcPreparedStatement(List<T> statements) {
-		super(statements);
+	public JdbcPreparedStatement(JdbcConnection connection, List<T> statements) {
+		super(connection, statements);
 	}
 
 	@Override
@@ -100,6 +100,7 @@ public class JdbcPreparedStatement<T extends PreparedStatement> extends JdbcStat
 
 	}
 
+	@Deprecated
 	@Override
 	public void setUnicodeStream(int parameterIndex, InputStream x, int length) throws SQLException {
 

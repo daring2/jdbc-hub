@@ -6,10 +6,15 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.*;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 // TODO implement
-public class JdbcResultSet implements ResultSet {
+public class JdbcResultSet extends EntityList<ResultSet> implements ResultSet {
+
+	public JdbcResultSet(List<ResultSet> resultSets) {
+		super(resultSets);
+	}
 
 	@Override
 	public boolean next() throws SQLException {
@@ -66,6 +71,7 @@ public class JdbcResultSet implements ResultSet {
 		return 0;
 	}
 
+	@Deprecated
 	@Override
 	public BigDecimal getBigDecimal(int columnIndex, int scale) throws SQLException {
 		return null;
@@ -96,6 +102,7 @@ public class JdbcResultSet implements ResultSet {
 		return null;
 	}
 
+	@Deprecated
 	@Override
 	public InputStream getUnicodeStream(int columnIndex) throws SQLException {
 		return null;
@@ -146,6 +153,7 @@ public class JdbcResultSet implements ResultSet {
 		return 0;
 	}
 
+	@Deprecated
 	@Override
 	public BigDecimal getBigDecimal(String columnLabel, int scale) throws SQLException {
 		return null;
@@ -176,6 +184,7 @@ public class JdbcResultSet implements ResultSet {
 		return null;
 	}
 
+	@Deprecated
 	@Override
 	public InputStream getUnicodeStream(String columnLabel) throws SQLException {
 		return null;

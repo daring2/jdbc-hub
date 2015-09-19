@@ -12,8 +12,8 @@ import java.util.Map;
 // TODO implement
 public class JdbcCallableStatement extends JdbcPreparedStatement<CallableStatement> implements CallableStatement {
 
-	public JdbcCallableStatement(List<CallableStatement> statements) {
-		super(statements);
+	public JdbcCallableStatement(JdbcConnection connection, List<CallableStatement> statements) {
+		super(connection, statements);
 	}
 
 	@Override
@@ -71,6 +71,7 @@ public class JdbcCallableStatement extends JdbcPreparedStatement<CallableStateme
 		return 0;
 	}
 
+	@Deprecated
 	@Override
 	public BigDecimal getBigDecimal(int parameterIndex, int scale) throws SQLException {
 		return null;

@@ -5,41 +5,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
-import java.util.stream.Collectors;
 
-public class JdbcConnection implements Connection {
-
-	private final List<Connection> connections;
+public class JdbcConnection extends EntityList<Connection> implements Connection {
 
 	public JdbcConnection(List<Connection> connections) {
-		this.connections = connections;
-	}
-
-	private <T> List<T> map(JdbcFunction<Connection, T> mapper) {
-		return connections.parallelStream().map(mapper).collect(Collectors.toList());
-	}
-
-	private void forEach(JdbcConsumer<Connection> consumer) {
-		connections.parallelStream().forEach(consumer);
-	}
-
-	private Connection mainConnection() {
-		return connections.get(0);
+		super(connections);
 	}
 
 	@Override
 	public Statement createStatement() throws SQLException {
-		return new JdbcStatement<>(map(Connection::createStatement));
+		return new JdbcStatement<>(this, mapToList(Connection::createStatement));
 	}
 
 	@Override
 	public PreparedStatement prepareStatement(String sql) throws SQLException {
-		return new JdbcPreparedStatement<>(map(c -> c.prepareStatement(sql)));
+		return new JdbcPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql)));
 	}
 
 	@Override
 	public CallableStatement prepareCall(String sql) throws SQLException {
-		return new JdbcCallableStatement(map(c -> c.prepareCall(sql)));
+		return new JdbcCallableStatement(this, mapToList(c -> c.prepareCall(sql)));
 	}
 
 	@Override
@@ -54,7 +39,7 @@ public class JdbcConnection implements Connection {
 
 	@Override
 	public boolean getAutoCommit() throws SQLException {
-		return mainConnection().getAutoCommit();
+		return mainEntity().getAutoCommit();
 	}
 
 	@Override
@@ -74,12 +59,12 @@ public class JdbcConnection implements Connection {
 
 	@Override
 	public boolean isClosed() throws SQLException {
-		return mainConnection().isClosed();
+		return mainEntity().isClosed();
 	}
 
 	@Override
 	public DatabaseMetaData getMetaData() throws SQLException {
-		return mainConnection().getMetaData();
+		return mainEntity().getMetaData();
 	}
 
 	@Override
@@ -89,7 +74,7 @@ public class JdbcConnection implements Connection {
 
 	@Override
 	public boolean isReadOnly() throws SQLException {
-		return mainConnection().isReadOnly();
+		return mainEntity().isReadOnly();
 	}
 
 	@Override
@@ -99,7 +84,7 @@ public class JdbcConnection implements Connection {
 
 	@Override
 	public String getCatalog() throws SQLException {
-		return mainConnection().getCatalog();
+		return mainEntity().getCatalog();
 	}
 
 	@Override
@@ -109,7 +94,7 @@ public class JdbcConnection implements Connection {
 
 	@Override
 	public int getTransactionIsolation() throws SQLException {
-		return mainConnection().getTransactionIsolation();
+		return mainEntity().getTransactionIsolation();
 	}
 
 	@Override
@@ -124,22 +109,22 @@ public class JdbcConnection implements Connection {
 
 	@Override
 	public Statement createStatement(int resultSetType, int resultSetConcurrency) throws SQLException {
-		return new JdbcStatement<>(map(c -> c.createStatement(resultSetType, resultSetConcurrency)));
+		return new JdbcStatement<>(this, mapToList(c -> c.createStatement(resultSetType, resultSetConcurrency)));
 	}
 
 	@Override
 	public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
-		return new JdbcPreparedStatement<>(map(c -> c.prepareStatement(sql, resultSetType, resultSetConcurrency)));
+		return new JdbcPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql, resultSetType, resultSetConcurrency)));
 	}
 
 	@Override
 	public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
-		return new JdbcCallableStatement(map(c -> c.prepareCall(sql, resultSetType, resultSetConcurrency)));
+		return new JdbcCallableStatement(this, mapToList(c -> c.prepareCall(sql, resultSetType, resultSetConcurrency)));
 	}
 
 	@Override
 	public Map<String, Class<?>> getTypeMap() throws SQLException {
-		return mainConnection().getTypeMap();
+		return mainEntity().getTypeMap();
 	}
 
 	@Override
@@ -154,7 +139,7 @@ public class JdbcConnection implements Connection {
 
 	@Override
 	public int getHoldability() throws SQLException {
-		return mainConnection().getHoldability();
+		return mainEntity().getHoldability();
 	}
 
 	@Override
@@ -179,32 +164,32 @@ public class JdbcConnection implements Connection {
 
 	@Override
 	public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-		return new JdbcStatement<>(map(c -> c.createStatement(resultSetType, resultSetConcurrency, resultSetHoldability)));
+		return new JdbcStatement<>(this, mapToList(c -> c.createStatement(resultSetType, resultSetConcurrency, resultSetHoldability)));
 	}
 
 	@Override
 	public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-		return new JdbcPreparedStatement<>(map(c -> c.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability)));
+		return new JdbcPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability)));
 	}
 
 	@Override
 	public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-		return new JdbcCallableStatement(map(c -> c.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability)));
+		return new JdbcCallableStatement(this, mapToList(c -> c.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability)));
 	}
 
 	@Override
 	public PreparedStatement prepareStatement(String sql, int autoGeneratedKeys) throws SQLException {
-		return new JdbcPreparedStatement<>(map(c -> c.prepareStatement(sql, autoGeneratedKeys)));
+		return new JdbcPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql, autoGeneratedKeys)));
 	}
 
 	@Override
 	public PreparedStatement prepareStatement(String sql, int[] columnIndexes) throws SQLException {
-		return new JdbcPreparedStatement<>(map(c -> c.prepareStatement(sql, columnIndexes)));
+		return new JdbcPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql, columnIndexes)));
 	}
 
 	@Override
 	public PreparedStatement prepareStatement(String sql, String[] columnNames) throws SQLException {
-		return new JdbcPreparedStatement<>(map(c -> c.prepareStatement(sql, columnNames)));
+		return new JdbcPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql, columnNames)));
 	}
 
 	@Override
@@ -229,7 +214,7 @@ public class JdbcConnection implements Connection {
 
 	@Override
 	public boolean isValid(int timeout) throws SQLException {
-		return false; // TODO implement
+		return map(c -> c.isValid(timeout)).allMatch(r -> r);
 	}
 
 	@Override
@@ -244,12 +229,12 @@ public class JdbcConnection implements Connection {
 
 	@Override
 	public String getClientInfo(String name) throws SQLException {
-		return mainConnection().getClientInfo(name);
+		return mainEntity().getClientInfo(name);
 	}
 
 	@Override
 	public Properties getClientInfo() throws SQLException {
-		return mainConnection().getClientInfo();
+		return mainEntity().getClientInfo();
 	}
 
 	@Override
@@ -269,7 +254,7 @@ public class JdbcConnection implements Connection {
 
 	@Override
 	public String getSchema() throws SQLException {
-		return mainConnection().getSchema();
+		return mainEntity().getSchema();
 	}
 
 	@Override
@@ -284,16 +269,16 @@ public class JdbcConnection implements Connection {
 
 	@Override
 	public int getNetworkTimeout() throws SQLException {
-		return mainConnection().getNetworkTimeout();
+		return mainEntity().getNetworkTimeout();
 	}
 
 	@Override
 	public <T> T unwrap(Class<T> iface) throws SQLException {
-		return mainConnection().unwrap(iface);
+		return mainEntity().unwrap(iface);
 	}
 
 	@Override
 	public boolean isWrapperFor(Class<?> iface) throws SQLException {
-		return  mainConnection().isWrapperFor(iface);
+		return mainEntity().isWrapperFor(iface);
 	}
 }
