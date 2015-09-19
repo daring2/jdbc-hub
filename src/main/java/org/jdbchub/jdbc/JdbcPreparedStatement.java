@@ -1,12 +1,12 @@
 package org.jdbchub.jdbc;
 
-import java.io.InputStream;
-import java.io.Reader;
+import java.io.*;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.*;
 import java.util.Calendar;
 import java.util.List;
+import static org.jdbchub.jdbc.JdbcUtils.*;
 
 public class JdbcPreparedStatement<T extends PreparedStatement> extends JdbcStatement<T> implements PreparedStatement {
 
@@ -96,18 +96,21 @@ public class JdbcPreparedStatement<T extends PreparedStatement> extends JdbcStat
 
 	@Override
 	public void setAsciiStream(int parameterIndex, InputStream x, int length) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		byte[] bytes = readBytes(x);
+		forEach(st -> st.setAsciiStream(parameterIndex, new ByteArrayInputStream(bytes), length));
 	}
 
 	@Deprecated
 	@Override
 	public void setUnicodeStream(int parameterIndex, InputStream x, int length) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		byte[] bytes = readBytes(x);
+		forEach(st -> st.setUnicodeStream(parameterIndex, new ByteArrayInputStream(bytes), length));
 	}
 
 	@Override
 	public void setBinaryStream(int parameterIndex, InputStream x, int length) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		byte[] bytes = readBytes(x);
+		forEach(st -> st.setBinaryStream(parameterIndex, new ByteArrayInputStream(bytes), length));
 	}
 
 	@Override
@@ -137,7 +140,8 @@ public class JdbcPreparedStatement<T extends PreparedStatement> extends JdbcStat
 
 	@Override
 	public void setCharacterStream(int parameterIndex, Reader reader, int length) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		String str = readString(reader);
+		forEach(st -> st.setCharacterStream(parameterIndex, new StringReader(str), length));
 	}
 
 	@Override
@@ -206,8 +210,9 @@ public class JdbcPreparedStatement<T extends PreparedStatement> extends JdbcStat
 	}
 
 	@Override
-	public void setNCharacterStream(int parameterIndex, Reader value, long length) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+	public void setNCharacterStream(int parameterIndex, Reader reader, long length) throws SQLException {
+		String str = readString(reader);
+		forEach(st -> st.setNCharacterStream(parameterIndex, new StringReader(str), length));
 	}
 
 	@Override
@@ -217,17 +222,20 @@ public class JdbcPreparedStatement<T extends PreparedStatement> extends JdbcStat
 
 	@Override
 	public void setClob(int parameterIndex, Reader reader, long length) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		String str = readString(reader);
+		forEach(st -> st.setClob(parameterIndex, new StringReader(str), length));
 	}
 
 	@Override
-	public void setBlob(int parameterIndex, InputStream inputStream, long length) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+	public void setBlob(int parameterIndex, InputStream x, long length) throws SQLException {
+		byte[] bytes = readBytes(x);
+		forEach(st -> st.setBlob(parameterIndex, new ByteArrayInputStream(bytes), length));
 	}
 
 	@Override
 	public void setNClob(int parameterIndex, Reader reader, long length) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		String str = readString(reader);
+		forEach(st -> st.setNClob(parameterIndex, new StringReader(str), length));
 	}
 
 	@Override
@@ -242,52 +250,62 @@ public class JdbcPreparedStatement<T extends PreparedStatement> extends JdbcStat
 
 	@Override
 	public void setAsciiStream(int parameterIndex, InputStream x, long length) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		byte[] bytes = readBytes(x);
+		forEach(st -> st.setAsciiStream(parameterIndex, new ByteArrayInputStream(bytes), length));
 	}
 
 	@Override
 	public void setBinaryStream(int parameterIndex, InputStream x, long length) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		byte[] bytes = readBytes(x);
+		forEach(st -> st.setBinaryStream(parameterIndex, new ByteArrayInputStream(bytes), length));
 	}
 
 	@Override
 	public void setCharacterStream(int parameterIndex, Reader reader, long length) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		String str = readString(reader);
+		forEach(st -> st.setCharacterStream(parameterIndex, new StringReader(str), length));
 	}
 
 	@Override
 	public void setAsciiStream(int parameterIndex, InputStream x) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		byte[] bytes = readBytes(x);
+		forEach(st -> st.setAsciiStream(parameterIndex, new ByteArrayInputStream(bytes)));
 	}
 
 	@Override
 	public void setBinaryStream(int parameterIndex, InputStream x) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		byte[] bytes = readBytes(x);
+		forEach(st -> st.setBinaryStream(parameterIndex, new ByteArrayInputStream(bytes)));
 	}
 
 	@Override
 	public void setCharacterStream(int parameterIndex, Reader reader) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		String str = readString(reader);
+		forEach(st -> st.setCharacterStream(parameterIndex, new StringReader(str)));
 	}
 
 	@Override
-	public void setNCharacterStream(int parameterIndex, Reader value) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+	public void setNCharacterStream(int parameterIndex, Reader reader) throws SQLException {
+		String str = readString(reader);
+		forEach(st -> st.setNCharacterStream(parameterIndex, new StringReader(str)));
 	}
 
 	@Override
 	public void setClob(int parameterIndex, Reader reader) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		String str = readString(reader);
+		forEach(st -> st.setClob(parameterIndex, new StringReader(str)));
 	}
 
 	@Override
-	public void setBlob(int parameterIndex, InputStream inputStream) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+	public void setBlob(int parameterIndex, InputStream x) throws SQLException {
+		byte[] bytes = readBytes(x);
+		forEach(st -> st.setBlob(parameterIndex, new ByteArrayInputStream(bytes)));
 	}
 
 	@Override
 	public void setNClob(int parameterIndex, Reader reader) throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implement
+		String str = readString(reader);
+		forEach(st -> st.setNClob(parameterIndex, new StringReader(str)));
 	}
 
 }
