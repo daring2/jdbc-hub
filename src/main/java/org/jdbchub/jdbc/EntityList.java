@@ -13,6 +13,10 @@ class EntityList<T> {
 		this.entities = entities;
 	}
 
+	int size() {
+		return entities.size();
+	}
+
 	<R> Stream<R> map(JdbcFunction<T, R> mapper) {
 		return entities.parallelStream().map(mapper);
 	}
