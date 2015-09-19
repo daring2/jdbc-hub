@@ -29,7 +29,7 @@ public class JdbcConnection extends EntityList<Connection> implements Connection
 
 	@Override
 	public String nativeSQL(String sql) throws SQLException {
-		return sql;
+		return mainEntity().nativeSQL(sql);
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class JdbcConnection extends EntityList<Connection> implements Connection
 
 	@Override
 	public boolean isClosed() throws SQLException {
-		return mainEntity().isClosed();
+		return map(Connection::isClosed).anyMatch(r -> r);
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class JdbcConnection extends EntityList<Connection> implements Connection
 
 	@Override
 	public SQLWarning getWarnings() throws SQLException {
-		return null; // TODO implement
+		return mainEntity().getWarnings();
 	}
 
 	@Override
@@ -144,22 +144,22 @@ public class JdbcConnection extends EntityList<Connection> implements Connection
 
 	@Override
 	public Savepoint setSavepoint() throws SQLException {
-		return null; // TODO implement
+		throw new UnsupportedOperationException(); // TODO implement
 	}
 
 	@Override
 	public Savepoint setSavepoint(String name) throws SQLException {
-		return null; // TODO implement
+		throw new UnsupportedOperationException(); // TODO implement
 	}
 
 	@Override
 	public void rollback(Savepoint savepoint) throws SQLException {
-		// TODO implement
+		throw new UnsupportedOperationException(); // TODO implement
 	}
 
 	@Override
 	public void releaseSavepoint(Savepoint savepoint) throws SQLException {
-		// TODO implement
+		throw new UnsupportedOperationException(); // TODO implement
 	}
 
 	@Override
@@ -194,22 +194,22 @@ public class JdbcConnection extends EntityList<Connection> implements Connection
 
 	@Override
 	public Clob createClob() throws SQLException {
-		return null; // TODO implement
+		throw new UnsupportedOperationException(); // TODO implement
 	}
 
 	@Override
 	public Blob createBlob() throws SQLException {
-		return null; // TODO implement
+		throw new UnsupportedOperationException(); // TODO implement
 	}
 
 	@Override
 	public NClob createNClob() throws SQLException {
-		return null; // TODO implement
+		throw new UnsupportedOperationException(); // TODO implement
 	}
 
 	@Override
 	public SQLXML createSQLXML() throws SQLException {
-		return null; // TODO implement
+		throw new UnsupportedOperationException(); // TODO implement
 	}
 
 	@Override
@@ -239,12 +239,12 @@ public class JdbcConnection extends EntityList<Connection> implements Connection
 
 	@Override
 	public Array createArrayOf(String typeName, Object[] elements) throws SQLException {
-		return null; // TODO implement
+		throw new UnsupportedOperationException(); // TODO implement
 	}
 
 	@Override
 	public Struct createStruct(String typeName, Object[] attributes) throws SQLException {
-		return null; // TODO implement
+		throw new UnsupportedOperationException(); // TODO implement
 	}
 
 	@Override
