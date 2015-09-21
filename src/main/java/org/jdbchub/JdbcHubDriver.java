@@ -6,11 +6,11 @@ import java.util.logging.Logger;
 
 public class JdbcHubDriver implements Driver {
 
-    public static final String URL_PREFIX = "jdbc:jdbchub:";
+    public static final String UrlPrefix = "jdbc:jdbchub:";
 
     @Override
     public boolean acceptsURL(String url) throws SQLException {
-        return url != null && url.startsWith(URL_PREFIX);
+        return url != null && url.startsWith(UrlPrefix);
     }
 
     @Override
