@@ -31,7 +31,7 @@ public class JdbcResultSet extends EntityList<ResultSet> implements ResultSet {
 			if (current().next()) {
 				rowNumber++;
 				return true;
-			} else if (currentIndex < size()) {
+			} else if (currentIndex < size() - 1) {
 				currentIndex++;
 			} else {
 				rowNumber++;
