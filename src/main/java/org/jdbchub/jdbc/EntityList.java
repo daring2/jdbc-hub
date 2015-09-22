@@ -21,12 +21,16 @@ class EntityList<T> {
 		return entities.size();
 	}
 
-	<R> Stream<R> map(JdbcFunction<T, R> mapper) {
-		return entities.parallelStream().map(mapper);
+	Stream<T> entityStream() {
+		return entities.parallelStream();
 	}
 
-	boolean allMatch(JdbcFunction<T, Boolean> mapper) {
-		return map(mapper).allMatch(r -> r);
+	<R> Stream<R> map(JdbcFunction<T, R> mapper) {
+		return entityStream().map(mapper);
+	}
+
+	boolean allMatch(JdbcPredicate<T> mapper) {
+		return entityStream().allMatch(mapper);
 	}
 
 	<R> List<R> mapToList(JdbcFunction<T, R> mapper) {
@@ -38,7 +42,7 @@ class EntityList<T> {
 	}
 
 	void forEach(JdbcConsumer<T> consumer) {
-		entities.parallelStream().forEach(consumer);
+		entityStream().forEach(consumer);
 	}
 
 	T mainEntity() {
