@@ -25,6 +25,10 @@ class EntityList<T> {
 		return entities.parallelStream().map(mapper);
 	}
 
+	boolean allMatch(JdbcFunction<T, Boolean> mapper) {
+		return map(mapper).allMatch(r -> r);
+	}
+
 	<R> List<R> mapToList(JdbcFunction<T, R> mapper) {
 		return map(mapper).collect(Collectors.toList());
 	}

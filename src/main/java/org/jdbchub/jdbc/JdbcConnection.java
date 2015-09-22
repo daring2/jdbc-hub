@@ -220,7 +220,7 @@ public class JdbcConnection extends EntityList<Connection> implements Connection
 
 	@Override
 	public boolean isValid(int timeout) throws SQLException {
-		return map(c -> c.isValid(timeout)).allMatch(r -> r);
+		return allMatch(c -> c.isValid(timeout));
 	}
 
 	@Override

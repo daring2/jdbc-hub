@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class JdbcConnectionTest {
 
 	@Test
-	public void testQuery() {
+	public void testQuery() throws Exception {
 		List<Connection> cons = createTestDatabases();
 		JdbcConnection c = new JdbcConnection(cons);
 		try (Handle h = DBI.open(c)) {
@@ -28,11 +28,21 @@ public class JdbcConnectionTest {
 
 			cons.get(0).close();
 			assertTrue(c.isClosed());
-			assertFalse(c.map(Connection::isClosed).allMatch(r -> r));
+			assertFalse(c.allMatch(Connection::isClosed));
 
 			c.close();
 			assertTrue(c.isClosed());
-			assertTrue(c.map(Connection::isClosed).allMatch(r -> r));
+			assertTrue(c.allMatch(Connection::isClosed));
+		}
+	}
+
+	@Test
+	public void testIsValid() throws Exception {
+		List<Connection> cons = createTestDatabases();
+		try (JdbcConnection c = new JdbcConnection(cons)) {
+			assertTrue(c.isValid(1));
+			cons.get(0).close();
+			assertFalse(c.isValid(1));
 		}
 	}
 
