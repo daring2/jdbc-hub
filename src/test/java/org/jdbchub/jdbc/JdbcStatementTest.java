@@ -3,11 +3,12 @@ package org.jdbchub.jdbc;
 import org.junit.Test;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
-import org.skife.jdbi.v2.Query;
 import org.skife.jdbi.v2.util.IntegerMapper;
 
 import java.sql.Statement;
+import java.util.List;
 
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.jdbchub.JdbcHubTestUtils.createTestConnection;
 import static org.junit.Assert.assertArrayEquals;
@@ -17,21 +18,38 @@ public class JdbcStatementTest {
 
 	@Test
 	public void testExecuteUpdate() throws Exception {
-
+		try (JdbcConnection c = createTestConnection()) {
+			Handle h = DBI.open(c);
+			Statement st = c.createStatement();
+			assertEquals(3, st.executeUpdate(updateValueSql("nv1", "%1")));
+			assertEquals(asList(1, 1, 1), selectCountByValue(h, "nv1"));
+			assertEquals(2, st.executeUpdate(updateValueSql("nv2", "%2_")));
+			assertEquals(asList(0, 2, 0), selectCountByValue(h, "nv2"));
+			assertEquals(0, st.executeUpdate(updateValueSql("nv3", "%3")));
+			assertEquals(asList(0, 0, 0), selectCountByValue(h, "nv3"));
+		}
 	}
 
 	@Test
 	public void testBatch() throws Exception {
 		try (JdbcConnection c = createTestConnection()) {
 			Statement st = c.createStatement();
-			st.addBatch("update test_items set value = 'a' where name like '%1'");
-			st.addBatch("update test_items set value = 'b' where name like '%22'");
-			assertArrayEquals(new int[] {3, 1}, st.executeBatch());
+			st.addBatch(updateValueSql("nv1", "%1"));
+			st.addBatch(updateValueSql("nv2", "%22"));
+			assertArrayEquals(new int[]{3, 1}, st.executeBatch());
 			Handle h = DBI.open(c);
-			Query<Integer> q = h.createQuery("select count(*) from test_items where value = ?").map(IntegerMapper.FIRST);
-			assertEquals(asList(1, 1, 1), q.bind(0, "a").list());
-			assertEquals(asList(0, 1, 0), q.bind(0, "b").list());
+			assertEquals(asList(1, 1, 1), selectCountByValue(h, "nv1"));
+			assertEquals(asList(0, 1, 0), selectCountByValue(h, "nv2"));
 		}
+	}
+
+	public String updateValueSql(String newValue, String nameExp) {
+		return format("update test_items set value = '%s' where name like '%s'", newValue, nameExp);
+	}
+
+	public List<Integer> selectCountByValue(Handle h, String value) {
+		return h.createQuery("select count(*) from test_items where value = ?")
+				.bind(0, value).map(IntegerMapper.FIRST).list();
 	}
 
 }
