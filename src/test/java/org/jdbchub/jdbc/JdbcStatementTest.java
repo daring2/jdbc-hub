@@ -6,21 +6,23 @@ import org.skife.jdbi.v2.Handle;
 import org.skife.jdbi.v2.Query;
 import org.skife.jdbi.v2.util.IntegerMapper;
 
-import java.sql.Connection;
 import java.sql.Statement;
-import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.jdbchub.JdbcHubTestUtils.createTestDatabases;
+import static org.jdbchub.JdbcHubTestUtils.createTestConnection;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class JdbcStatementTest {
 
 	@Test
+	public void testExecuteUpdate() throws Exception {
+
+	}
+
+	@Test
 	public void testBatch() throws Exception {
-		List<Connection> cons = createTestDatabases();
-		try (JdbcConnection c = new JdbcConnection(cons)) {
+		try (JdbcConnection c = createTestConnection()) {
 			Statement st = c.createStatement();
 			st.addBatch("update test_items set value = 'a' where name like '%1'");
 			st.addBatch("update test_items set value = 'b' where name like '%22'");

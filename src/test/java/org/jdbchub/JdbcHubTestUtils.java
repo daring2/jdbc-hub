@@ -1,6 +1,7 @@
 package org.jdbchub;
 
 import com.google.common.collect.ImmutableMap;
+import org.jdbchub.jdbc.JdbcConnection;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 
@@ -11,7 +12,7 @@ import java.util.Map;
 
 public class JdbcHubTestUtils {
 
-	public static List<Connection> createTestDatabases() {
+	public static JdbcConnection createTestConnection() {
 		List<Connection> cons = new ArrayList<>();
 		for (int i = 1; i <= 3; i++) {
 			Handle h = DBI.open("jdbc:h2:mem:db" + i);
@@ -20,7 +21,7 @@ public class JdbcHubTestUtils {
 				h.insert("insert into test_items values (?, ?)", "n" + i + k, "v" + i + k);
 			cons.add(h.getConnection());
 		}
-		return cons;
+		return new JdbcConnection(cons);
 	}
 
 	public static List<Map<String, Object>> allItems() {
