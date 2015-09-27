@@ -34,7 +34,7 @@ public class JdbcResultSetTest {
 			assertTrue(rs.next());
 			checkRow(rs, 1);
 
-			//TODO check absolute nd relative
+			//TODO check absolute and relative
 		}
 	}
 

@@ -15,7 +15,6 @@ public class JdbcResultSet extends EntityList<ResultSet> implements ResultSet {
 
 	private int currentIndex;
 	private int rowNumber;
-	private int rowCount;
 
 	public JdbcResultSet(JdbcStatement<?> statement, List<ResultSet> resultSets) {
 		super(resultSets);
@@ -35,7 +34,6 @@ public class JdbcResultSet extends EntityList<ResultSet> implements ResultSet {
 			} else if (currentIndex < size() - 1) {
 				currentIndex++;
 			} else {
-				rowCount = rowNumber;
 				rowNumber++;
 				return false;
 			}
@@ -86,9 +84,10 @@ public class JdbcResultSet extends EntityList<ResultSet> implements ResultSet {
 
 	@Override
 	public void afterLast() throws SQLException {
+		forEach(ResultSet::last);
+		rowNumber = mapToInt(ResultSet::getRow).sum() + 1;
 		forEach(ResultSet::afterLast);
 		currentIndex = size() - 1;
-		rowNumber = rowCount + 1; //TODO fix
 	}
 
 	@Override
