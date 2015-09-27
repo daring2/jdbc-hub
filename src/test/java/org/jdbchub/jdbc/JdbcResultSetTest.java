@@ -11,8 +11,7 @@ public class JdbcResultSetTest {
 	@Test
 	public void testCursor() throws Exception {
 		try (JdbcConnection c = createTestConnection()) {
-			ResultSet rs = c.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
-				.executeQuery("select value from test_items order by name");
+			ResultSet rs = selectAll(c);
 
 			checkCursor(rs, BeforeFirst, 0);
 			for (int i = 1; i <= 6; i++) {
@@ -33,9 +32,53 @@ public class JdbcResultSetTest {
 			rs.beforeFirst();
 			assertTrue(rs.next());
 			checkRow(rs, 1);
-
-			//TODO check absolute and relative
 		}
+	}
+
+	@Test
+	public void testAbsolute() throws Exception {
+		try (JdbcConnection c = createTestConnection()) {
+			ResultSet rs = selectAll(c);
+
+			assertTrue(rs.absolute(2));
+			checkRow(rs, 2);
+			assertTrue(rs.absolute(5));
+			checkRow(rs, 5);
+
+			assertTrue(rs.absolute(-5));
+			checkRow(rs, 2);
+			assertTrue(rs.absolute(-2));
+			checkRow(rs, 5);
+
+			assertFalse(rs.absolute(0));
+			checkCursor(rs, BeforeFirst, 0);
+			assertFalse(rs.absolute(10));
+			checkCursor(rs, AfterLast, 0);
+		}
+	}
+
+	@Test
+	public void testRelative() throws Exception {
+		try (JdbcConnection c = createTestConnection()) {
+			ResultSet rs = selectAll(c);
+
+			assertTrue(rs.relative(2));
+			checkRow(rs, 2);
+			assertTrue(rs.relative(2));
+			checkRow(rs, 4);
+			assertTrue(rs.relative(-3));
+			checkRow(rs, 1);
+
+			assertFalse(rs.relative(-10));
+			checkCursor(rs, BeforeFirst, 0);
+			assertFalse(rs.relative(10));
+			checkCursor(rs, AfterLast, 0);
+		}
+	}
+
+	public static ResultSet selectAll(JdbcConnection c) throws Exception {
+		return c.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
+			.executeQuery("select value from test_items order by name");
 	}
 
 	public static void checkCursor(ResultSet rs, CursorPosition position, int row) throws Exception {
