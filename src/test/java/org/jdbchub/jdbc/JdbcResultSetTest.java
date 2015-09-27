@@ -36,6 +36,19 @@ public class JdbcResultSetTest {
 	}
 
 	@Test
+	public void testEmptyCursor() throws Exception {
+		try (JdbcConnection c = createTestConnection()) {
+			ResultSet rs = c.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
+				.executeQuery("select value from test_items where name = 'n3'");
+			checkCursor(rs, Middle, 0);
+			assertFalse(rs.next());
+			checkCursor(rs, Middle, 0);
+			assertFalse(rs.previous());
+			checkCursor(rs, Middle, 0);
+		}
+	}
+
+	@Test
 	public void testAbsolute() throws Exception {
 		try (JdbcConnection c = createTestConnection()) {
 			ResultSet rs = selectAll(c);
