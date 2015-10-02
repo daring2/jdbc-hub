@@ -5,7 +5,7 @@ import java.util.function.Function;
 import static org.jdbchub.jdbc.JdbcUtils.*;
 
 @FunctionalInterface
-interface JdbcFunction<T, R> extends Function<T, R> {
+public interface JdbcFunction<T, R> extends Function<T, R> {
 
 	@Override
 	default R apply(T t) {
@@ -17,5 +17,9 @@ interface JdbcFunction<T, R> extends Function<T, R> {
 	}
 
 	R applyThrows(T t) throws SQLException;
+
+	static <T, R> JdbcFunction<T, R> jdbcFunc(JdbcFunction<T, R> func) {
+		return func;
+	}
 
 }
