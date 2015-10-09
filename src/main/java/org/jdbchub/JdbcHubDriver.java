@@ -1,10 +1,10 @@
 package org.jdbchub;
 
 import com.typesafe.config.Config;
+import org.jdbchub.config.MainConfigLoader;
 import java.sql.*;
 import java.util.Properties;
 import java.util.logging.Logger;
-import static org.jdbchub.config.ConfigUtils.loadConfig;
 
 public class JdbcHubDriver implements Driver {
 
@@ -19,7 +19,8 @@ public class JdbcHubDriver implements Driver {
 	public Connection connect(String url, Properties info) throws SQLException {
 		if (!acceptsURL(url))
 			return null;
-		Config c = loadConfig(url.substring(UrlPrefix.length()));
+		String confFile = url.substring(UrlPrefix.length());
+		Config c = new MainConfigLoader(confFile).load();
 		return new JdbcDataSource(c).getConnection();
 	}
 

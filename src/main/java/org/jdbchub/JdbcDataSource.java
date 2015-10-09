@@ -26,7 +26,7 @@ public class JdbcDataSource {
 		).collect(Collectors.toList());
 	}
 
-	Connection getConnection() throws SQLException {
+	public Connection getConnection() throws SQLException {
 		List<Connection> cons = dbConfigs.parallelStream()
 			.map(jdbcFunc(this::createConnection))
 			.collect(Collectors.toList());
