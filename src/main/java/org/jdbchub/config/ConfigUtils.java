@@ -1,4 +1,4 @@
-package org.jdbchub.util;
+package org.jdbchub.config;
 
 import com.typesafe.config.Config;
 

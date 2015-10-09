@@ -1,5 +1,6 @@
 package org.jdbchub;
 
+import org.jdbchub.config.DBConfig;
 import org.jdbchub.jdbc.JdbcConnection;
 import org.junit.Test;
 import org.skife.jdbi.v2.DBI;
@@ -7,7 +8,7 @@ import org.skife.jdbi.v2.Handle;
 import java.util.List;
 import static org.jdbchub.JdbcHubTestUtils.allItems;
 import static org.jdbchub.JdbcHubTestUtils.createTestConnection;
-import static org.jdbchub.util.ConfigUtils.loadConfig;
+import static org.jdbchub.config.ConfigUtils.loadConfig;
 import static org.junit.Assert.assertEquals;
 
 public class JdbcDataSourceTest {

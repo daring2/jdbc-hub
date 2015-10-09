@@ -1,6 +1,7 @@
 package org.jdbchub;
 
 import com.typesafe.config.Config;
+import org.jdbchub.config.DBConfig;
 import org.jdbchub.jdbc.JdbcConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;

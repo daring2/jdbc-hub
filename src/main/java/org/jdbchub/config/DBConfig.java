@@ -1,17 +1,17 @@
-package org.jdbchub;
+package org.jdbchub.config;
 
 import com.typesafe.config.Config;
 
 import java.util.Properties;
 
-import static org.jdbchub.util.ConfigUtils.getOptString;
+import static org.jdbchub.config.ConfigUtils.getOptString;
 
-class DBConfig {
+public class DBConfig {
 	public final String name;
 	public final String url;
 	public final Properties info;
 
-	DBConfig(String name, Config c) {
+	public DBConfig(String name, Config c) {
 		this.name = name;
 		this.url = c.getString("url");
 		this.info = buildInfo(c);

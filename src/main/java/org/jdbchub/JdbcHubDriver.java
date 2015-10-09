@@ -4,7 +4,7 @@ import com.typesafe.config.Config;
 import java.sql.*;
 import java.util.Properties;
 import java.util.logging.Logger;
-import static org.jdbchub.util.ConfigUtils.loadConfig;
+import static org.jdbchub.config.ConfigUtils.loadConfig;
 
 public class JdbcHubDriver implements Driver {
 

@@ -1,4 +1,4 @@
-package org.jdbchub;
+package org.jdbchub.config;
 
 import org.junit.Test;
 
