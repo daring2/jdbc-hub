@@ -4,6 +4,7 @@ import com.typesafe.config.Config;
 import java.util.List;
 import static org.jdbchub.config.ConfigUtils.getConfigList;
 import static org.jdbchub.config.ConfigUtils.loadMainConfig;
+import static org.jdbchub.config.ConfigPath.*;
 
 public class MainConfigLoader {
 	private final Config mainConfig;
@@ -13,7 +14,7 @@ public class MainConfigLoader {
 	}
 	
 	public Config load() {
-		List<Config> lcs = getConfigList(mainConfig, "jdbchub.configLoaders");
+		List<Config> lcs = getConfigList(mainConfig, ConfigLoaders.path);
 		return lcs.stream().reduce(mainConfig, (rc, lc) -> callLoader(lc).withFallback(rc));
 	}
 

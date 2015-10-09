@@ -5,13 +5,14 @@ import org.junit.Test;
 import java.util.HashSet;
 import static com.google.common.collect.Sets.newHashSet;
 import static org.junit.Assert.assertEquals;
+import static org.jdbchub.config.ConfigPath.*;
 
 public class MainConfigLoaderTest {
 
 	@Test
 	public void testConfigLoaders() {
 		Config mc = new MainConfigLoader("c2.conf").load();
-		Config dbc = mc.getConfig("jdbchub.dbconfigs");
+		Config dbc = mc.getConfig(DbConfigs.path);
 		assertEquals(3, dbc.root().size());
 		HashSet<String> dbs = newHashSet("db1", "db2", "db3");
 		for (String db : dbs) {
