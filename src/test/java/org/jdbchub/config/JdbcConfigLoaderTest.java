@@ -7,9 +7,8 @@ import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 import static org.jdbchub.config.ConfigPath.DbConfigs;
 import static org.jdbchub.config.ConfigUtils.configFromMap;
-import static org.jdbchub.config.ConfigUtils.configFromString;
 import static org.jdbchub.config.ConfigUtils.emptyConfig;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class JdbcConfigLoaderTest {
 
