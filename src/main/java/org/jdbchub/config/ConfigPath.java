@@ -3,6 +3,7 @@ package org.jdbchub.config;
 public enum ConfigPath {
 
 	Root("jdbchub"),
+	DriverClasses(Root.path + ".driverClasses"),
 	ConfigLoaders(Root.path + ".configLoaders"),
 	DbConfigs(Root.path + ".dbConfigs"),
 	;
