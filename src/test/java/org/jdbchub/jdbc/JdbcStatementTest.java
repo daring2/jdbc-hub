@@ -4,15 +4,12 @@ import org.junit.Test;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 import org.skife.jdbi.v2.util.IntegerMapper;
-
 import java.sql.Statement;
 import java.util.List;
-
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.jdbchub.JdbcHubTestUtils.createTestConnection;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class JdbcStatementTest {
 
@@ -40,6 +37,16 @@ public class JdbcStatementTest {
 			Handle h = DBI.open(c);
 			assertEquals(asList(1, 1, 1), selectCountByValue(h, "nv1"));
 			assertEquals(asList(0, 1, 0), selectCountByValue(h, "nv2"));
+		}
+	}
+
+	@Test
+	public void testGetResultSet() throws Exception {
+		try (JdbcConnection c = createTestConnection()) {
+			Statement st = c.createStatement();
+			assertNull(st.getResultSet());
+			st.executeQuery("select 1");
+			assertNotNull(st.getResultSet());
 		}
 	}
 

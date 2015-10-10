@@ -89,7 +89,8 @@ public class JdbcStatement<T extends Statement> extends EntityList<T> implements
 
 	@Override
 	public ResultSet getResultSet() throws SQLException {
-		return new JdbcResultSet(this, mapToList(Statement::getResultSet));
+		List<ResultSet> rs = mapToList(Statement::getResultSet);
+		return rs.get(0) != null ? new JdbcResultSet(this, rs) : null;
 	}
 
 	@Override
