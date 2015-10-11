@@ -17,5 +17,5 @@ dependencies {
 
 task copyDeps(type: Copy) {
 	from configurations.runtime
-	into "${buildDir}/deps"
+	into "${buildDir}/lib"
 }

@@ -50,6 +50,18 @@ public class JdbcStatementTest {
 		}
 	}
 
+	@Test
+	public void testGetUpdateCount() throws Exception {
+		try (JdbcConnection c = createTestConnection()) {
+			Statement st = c.createStatement();
+			assertEquals(0, st.getUpdateCount());
+			st.executeUpdate(updateValueSql("nv1", "%1"));
+			assertEquals(3, st.getUpdateCount());
+			st.executeQuery("select count(*) from test_items");
+			assertEquals(-1, st.getUpdateCount());
+		}
+	}
+
 	public String updateValueSql(String newValue, String nameExp) {
 		return format("update test_items set value = '%s' where name like '%s'", newValue, nameExp);
 	}

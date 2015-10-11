@@ -95,7 +95,8 @@ public class JdbcStatement<T extends Statement> extends EntityList<T> implements
 
 	@Override
 	public int getUpdateCount() throws SQLException {
-		return mapToInt(Statement::getUpdateCount).sum();
+		int c = mainEntity().getUpdateCount();
+		return c != -1 ? mapToInt(Statement::getUpdateCount).sum() : -1;
 	}
 
 	@Override
