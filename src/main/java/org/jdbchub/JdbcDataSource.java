@@ -8,8 +8,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
+import static org.jdbchub.config.ConfigPath.DbConfigs;
 import static org.jdbchub.jdbc.JdbcFunction.jdbcFunc;
-import static org.jdbchub.config.ConfigPath.*;
 
 public class JdbcDataSource {
 	final Config config;
@@ -22,9 +22,11 @@ public class JdbcDataSource {
 
 	private List<DBConfig> buildDBConfigs() {
 		Config c = this.config.getConfig(DbConfigs.path);
-		return c.root().keySet().stream().sorted().map(n ->
-			new DBConfig(n, c.getConfig(n))
-		).collect(Collectors.toList());
+		Config dc = this.config.getConfig(DbConfigs.path + ".default");
+		return c.root().keySet().stream().sorted()
+			.filter(n -> !n.equals("default"))
+			.map(n -> new DBConfig(n, c.getConfig(n).withFallback(dc)))
+			.collect(Collectors.toList());
 	}
 
 	public Connection getConnection() throws SQLException {

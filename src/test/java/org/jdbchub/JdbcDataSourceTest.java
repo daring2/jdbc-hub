@@ -19,8 +19,9 @@ public class JdbcDataSourceTest {
 		List<DBConfig> dbs = d.dbConfigs;
 		assertEquals(3, dbs.size());
 		for (int i = 1; i <= 3; i++) {
-			assertEquals("db" + i, dbs.get(i - 1).name);
-			assertEquals("jdbc:h2:mem:db" + i, dbs.get(i - 1).url);
+			DBConfig c = dbs.get(i - 1);
+			assertEquals("db" + i, c.name);
+			assertEquals("jdbc:h2:mem:db" + i, c.url);
 		}
 	}
 
