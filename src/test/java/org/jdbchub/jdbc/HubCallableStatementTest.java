@@ -13,11 +13,11 @@ import static java.util.Arrays.asList;
 import static org.jdbchub.JdbcHubTestUtils.createTestConnection;
 import static org.junit.Assert.assertEquals;
 
-public class JdbcCallableStatementTest {
+public class HubCallableStatementTest {
 
 	@Test
 	public void testCall() throws Exception {
-		try (JdbcConnection c = createTestConnection()) {
+		try (HubConnection c = createTestConnection()) {
 			Handle h = DBI.open(c);
 			h.execute("create alias test_function for \"org.jdbchub.jdbc.JdbcCallableStatementTest.testFunction\"");
 			CallableStatement st = c.prepareCall("{call test_function(?, ?)}");

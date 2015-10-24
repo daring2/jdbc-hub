@@ -11,11 +11,11 @@ import static java.util.Arrays.asList;
 import static org.jdbchub.JdbcHubTestUtils.createTestConnection;
 import static org.junit.Assert.*;
 
-public class JdbcStatementTest {
+public class HubStatementTest {
 
 	@Test
 	public void testExecuteUpdate() throws Exception {
-		try (JdbcConnection c = createTestConnection()) {
+		try (HubConnection c = createTestConnection()) {
 			Handle h = DBI.open(c);
 			Statement st = c.createStatement();
 			assertEquals(3, st.executeUpdate(updateValueSql("nv1", "%1")));
@@ -29,7 +29,7 @@ public class JdbcStatementTest {
 
 	@Test
 	public void testBatch() throws Exception {
-		try (JdbcConnection c = createTestConnection()) {
+		try (HubConnection c = createTestConnection()) {
 			Statement st = c.createStatement();
 			st.addBatch(updateValueSql("nv1", "%1"));
 			st.addBatch(updateValueSql("nv2", "%22"));
@@ -42,7 +42,7 @@ public class JdbcStatementTest {
 
 	@Test
 	public void testGetResultSet() throws Exception {
-		try (JdbcConnection c = createTestConnection()) {
+		try (HubConnection c = createTestConnection()) {
 			Statement st = c.createStatement();
 			assertNull(st.getResultSet());
 			st.executeQuery("select 1");
@@ -52,7 +52,7 @@ public class JdbcStatementTest {
 
 	@Test
 	public void testGetUpdateCount() throws Exception {
-		try (JdbcConnection c = createTestConnection()) {
+		try (HubConnection c = createTestConnection()) {
 			Statement st = c.createStatement();
 			assertEquals(0, st.getUpdateCount());
 			st.executeUpdate(updateValueSql("nv1", "%1"));

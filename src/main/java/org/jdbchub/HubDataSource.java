@@ -2,7 +2,7 @@ package org.jdbchub;
 
 import com.typesafe.config.Config;
 import org.jdbchub.config.DBConfig;
-import org.jdbchub.jdbc.JdbcConnection;
+import org.jdbchub.jdbc.HubConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 import static org.jdbchub.config.ConfigPath.DbConfigs;
 import static org.jdbchub.jdbc.JdbcFunction.jdbcFunc;
 
-public class JdbcDataSource {
+public class HubDataSource {
 	final Config config;
 	final List<DBConfig> dbConfigs;
 
-	public JdbcDataSource(Config config) {
+	public HubDataSource(Config config) {
 		this.config = config;
 		this.dbConfigs = buildDBConfigs();
 	}
@@ -33,7 +33,7 @@ public class JdbcDataSource {
 		List<Connection> cons = dbConfigs.parallelStream()
 			.map(jdbcFunc(this::createConnection))
 			.collect(Collectors.toList());
-		return new JdbcConnection(cons);
+		return new HubConnection(cons);
 	}
 
 	private Connection createConnection(DBConfig dbc) throws SQLException {

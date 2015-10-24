@@ -10,7 +10,7 @@ public class JdbcResultSetTest {
 
 	@Test
 	public void testCursor() throws Exception {
-		try (JdbcConnection c = createTestConnection()) {
+		try (HubConnection c = createTestConnection()) {
 			ResultSet rs = selectAll(c);
 
 			checkCursor(rs, BeforeFirst, 0);
@@ -37,7 +37,7 @@ public class JdbcResultSetTest {
 
 	@Test
 	public void testEmptyCursor() throws Exception {
-		try (JdbcConnection c = createTestConnection()) {
+		try (HubConnection c = createTestConnection()) {
 			ResultSet rs = c.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
 				.executeQuery("select value from test_items where name = 'n3'");
 			checkCursor(rs, Middle, 0);
@@ -50,7 +50,7 @@ public class JdbcResultSetTest {
 
 	@Test
 	public void testAbsolute() throws Exception {
-		try (JdbcConnection c = createTestConnection()) {
+		try (HubConnection c = createTestConnection()) {
 			ResultSet rs = selectAll(c);
 
 			assertTrue(rs.absolute(2));
@@ -72,7 +72,7 @@ public class JdbcResultSetTest {
 
 	@Test
 	public void testRelative() throws Exception {
-		try (JdbcConnection c = createTestConnection()) {
+		try (HubConnection c = createTestConnection()) {
 			ResultSet rs = selectAll(c);
 
 			assertTrue(rs.relative(2));
@@ -89,7 +89,7 @@ public class JdbcResultSetTest {
 		}
 	}
 
-	public static ResultSet selectAll(JdbcConnection c) throws Exception {
+	public static ResultSet selectAll(HubConnection c) throws Exception {
 		return c.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
 			.executeQuery("select value from test_items order by name");
 	}

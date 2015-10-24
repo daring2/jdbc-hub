@@ -1,7 +1,7 @@
 package org.jdbchub;
 
 import org.jdbchub.config.DBConfig;
-import org.jdbchub.jdbc.JdbcConnection;
+import org.jdbchub.jdbc.HubConnection;
 import org.junit.Test;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
@@ -11,11 +11,11 @@ import static org.jdbchub.JdbcHubTestUtils.createTestConnection;
 import static org.jdbchub.config.ConfigUtils.loadMainConfig;
 import static org.junit.Assert.assertEquals;
 
-public class JdbcDataSourceTest {
+public class HubDataSourceTest {
 
 	@Test
 	public void testBuildDBConfigs() {
-		JdbcDataSource d = new JdbcDataSource(loadMainConfig("c1.conf"));
+		HubDataSource d = new HubDataSource(loadMainConfig("c1.conf"));
 		List<DBConfig> dbs = d.dbConfigs;
 		assertEquals(3, dbs.size());
 		for (int i = 1; i <= 3; i++) {
@@ -27,8 +27,8 @@ public class JdbcDataSourceTest {
 
 	@Test
 	public void testGetConnection() throws Exception {
-		try (JdbcConnection c = createTestConnection()) {
-			JdbcDataSource d = new JdbcDataSource(loadMainConfig("c1.conf"));
+		try (HubConnection c = createTestConnection()) {
+			HubDataSource d = new HubDataSource(loadMainConfig("c1.conf"));
 			try (Handle h = DBI.open(d.getConnection())) {
 				assertEquals(allItems(), h.select("select * from test_items"));
 			}

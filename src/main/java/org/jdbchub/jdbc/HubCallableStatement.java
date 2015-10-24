@@ -10,11 +10,12 @@ import java.sql.*;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
-import static org.jdbchub.jdbc.JdbcUtils.*;
+import static org.jdbchub.jdbc.JdbcUtils.readBytes;
+import static org.jdbchub.jdbc.JdbcUtils.readString;
 
-public class JdbcCallableStatement extends JdbcPreparedStatement<CallableStatement> implements CallableStatement {
+public class HubCallableStatement extends HubPreparedStatement<CallableStatement> implements CallableStatement {
 
-	public JdbcCallableStatement(JdbcConnection connection, List<CallableStatement> statements) {
+	public HubCallableStatement(HubConnection connection, List<CallableStatement> statements) {
 		super(connection, statements);
 	}
 

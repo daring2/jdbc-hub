@@ -6,25 +6,25 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
-public class JdbcConnection extends EntityList<Connection> implements Connection {
+public class HubConnection extends EntityList<Connection> implements Connection {
 
-	public JdbcConnection(List<Connection> connections) {
+	public HubConnection(List<Connection> connections) {
 		super(connections);
 	}
 
 	@Override
 	public Statement createStatement() throws SQLException {
-		return new JdbcStatement<>(this, mapToList(Connection::createStatement));
+		return new HubStatement<>(this, mapToList(Connection::createStatement));
 	}
 
 	@Override
 	public PreparedStatement prepareStatement(String sql) throws SQLException {
-		return new JdbcPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql)));
+		return new HubPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql)));
 	}
 
 	@Override
 	public CallableStatement prepareCall(String sql) throws SQLException {
-		return new JdbcCallableStatement(this, mapToList(c -> c.prepareCall(sql)));
+		return new HubCallableStatement(this, mapToList(c -> c.prepareCall(sql)));
 	}
 
 	@Override
@@ -109,17 +109,17 @@ public class JdbcConnection extends EntityList<Connection> implements Connection
 
 	@Override
 	public Statement createStatement(int resultSetType, int resultSetConcurrency) throws SQLException {
-		return new JdbcStatement<>(this, mapToList(c -> c.createStatement(resultSetType, resultSetConcurrency)));
+		return new HubStatement<>(this, mapToList(c -> c.createStatement(resultSetType, resultSetConcurrency)));
 	}
 
 	@Override
 	public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
-		return new JdbcPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql, resultSetType, resultSetConcurrency)));
+		return new HubPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql, resultSetType, resultSetConcurrency)));
 	}
 
 	@Override
 	public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
-		return new JdbcCallableStatement(this, mapToList(c -> c.prepareCall(sql, resultSetType, resultSetConcurrency)));
+		return new HubCallableStatement(this, mapToList(c -> c.prepareCall(sql, resultSetType, resultSetConcurrency)));
 	}
 
 	@Override
@@ -144,17 +144,17 @@ public class JdbcConnection extends EntityList<Connection> implements Connection
 
 	@Override
 	public Savepoint setSavepoint() throws SQLException {
-		return new JdbcSavepoint(mapToList(Connection::setSavepoint));
+		return new HubSavepoint(mapToList(Connection::setSavepoint));
 	}
 
 	@Override
 	public Savepoint setSavepoint(String name) throws SQLException {
-		return new JdbcSavepoint(mapToList(c -> c.setSavepoint(name)));
+		return new HubSavepoint(mapToList(c -> c.setSavepoint(name)));
 	}
 
 	@Override
 	public void rollback(Savepoint savepoint) throws SQLException {
-		JdbcSavepoint sp = (JdbcSavepoint) savepoint;
+		HubSavepoint sp = (HubSavepoint) savepoint;
 		for (int i = 0; i < size(); i++) {
 			entity(i).rollback(sp.entity(i));
 		}
@@ -162,7 +162,7 @@ public class JdbcConnection extends EntityList<Connection> implements Connection
 
 	@Override
 	public void releaseSavepoint(Savepoint savepoint) throws SQLException {
-		JdbcSavepoint sp = (JdbcSavepoint) savepoint;
+		HubSavepoint sp = (HubSavepoint) savepoint;
 		for (int i = 0; i < size(); i++) {
 			entity(i).releaseSavepoint(sp.entity(i));
 		}
@@ -170,32 +170,32 @@ public class JdbcConnection extends EntityList<Connection> implements Connection
 
 	@Override
 	public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-		return new JdbcStatement<>(this, mapToList(c -> c.createStatement(resultSetType, resultSetConcurrency, resultSetHoldability)));
+		return new HubStatement<>(this, mapToList(c -> c.createStatement(resultSetType, resultSetConcurrency, resultSetHoldability)));
 	}
 
 	@Override
 	public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-		return new JdbcPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability)));
+		return new HubPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability)));
 	}
 
 	@Override
 	public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-		return new JdbcCallableStatement(this, mapToList(c -> c.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability)));
+		return new HubCallableStatement(this, mapToList(c -> c.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability)));
 	}
 
 	@Override
 	public PreparedStatement prepareStatement(String sql, int autoGeneratedKeys) throws SQLException {
-		return new JdbcPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql, autoGeneratedKeys)));
+		return new HubPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql, autoGeneratedKeys)));
 	}
 
 	@Override
 	public PreparedStatement prepareStatement(String sql, int[] columnIndexes) throws SQLException {
-		return new JdbcPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql, columnIndexes)));
+		return new HubPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql, columnIndexes)));
 	}
 
 	@Override
 	public PreparedStatement prepareStatement(String sql, String[] columnNames) throws SQLException {
-		return new JdbcPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql, columnNames)));
+		return new HubPreparedStatement<>(this, mapToList(c -> c.prepareStatement(sql, columnNames)));
 	}
 
 	@Override

@@ -21,7 +21,7 @@ public class JdbcHubDriver implements Driver {
 			return null;
 		String confFile = url.substring(UrlPrefix.length());
 		Config c = new MainConfigLoader(confFile).load();
-		return new JdbcDataSource(c).getConnection();
+		return new HubDataSource(c).getConnection();
 	}
 
 	@Override

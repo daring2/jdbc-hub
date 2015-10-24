@@ -1,16 +1,20 @@
 package org.jdbchub.jdbc;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.Reader;
+import java.io.StringReader;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.*;
 import java.util.Calendar;
 import java.util.List;
-import static org.jdbchub.jdbc.JdbcUtils.*;
+import static org.jdbchub.jdbc.JdbcUtils.readBytes;
+import static org.jdbchub.jdbc.JdbcUtils.readString;
 
-public class JdbcPreparedStatement<T extends PreparedStatement> extends JdbcStatement<T> implements PreparedStatement {
+public class HubPreparedStatement<T extends PreparedStatement> extends HubStatement<T> implements PreparedStatement {
 
-	public JdbcPreparedStatement(JdbcConnection connection, List<T> statements) {
+	public HubPreparedStatement(HubConnection connection, List<T> statements) {
 		super(connection, statements);
 	}
 

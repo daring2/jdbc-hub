@@ -12,11 +12,11 @@ import static java.util.Arrays.asList;
 import static org.jdbchub.JdbcHubTestUtils.createTestConnection;
 import static org.junit.Assert.assertEquals;
 
-public class JdbcPreparedStatementTest {
+public class HubPreparedStatementTest {
 
 	@Test
 	public void testExecuteUpdate() throws Exception {
-		try (JdbcConnection c = createTestConnection()) {
+		try (HubConnection c = createTestConnection()) {
 			PreparedStatement st = c.prepareStatement("update test_items set value = ? where name like ?");
 			st.setString(1, "nv1");
 			st.setString(2, "%1");
@@ -28,7 +28,7 @@ public class JdbcPreparedStatementTest {
 
 	@Test
 	public void testSetStream() throws Exception {
-		try (JdbcConnection c = createTestConnection()) {
+		try (HubConnection c = createTestConnection()) {
 			Handle h = DBI.open(c);
 			PreparedStatement st = c.prepareStatement("update test_items set value = ? where name like '%1'");
 			st.setAsciiStream(1, new ByteArrayInputStream("nv1".getBytes()));

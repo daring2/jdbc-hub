@@ -3,11 +3,11 @@ package org.jdbchub.jdbc;
 import java.sql.*;
 import java.util.List;
 
-public class JdbcStatement<T extends Statement> extends EntityList<T> implements Statement {
+public class HubStatement<T extends Statement> extends EntityList<T> implements Statement {
 
-	final JdbcConnection connection;
+	final HubConnection connection;
 
-	public JdbcStatement(JdbcConnection connection, List<T> statements) {
+	public HubStatement(HubConnection connection, List<T> statements) {
 		super(statements);
 		this.connection = connection;
 	}

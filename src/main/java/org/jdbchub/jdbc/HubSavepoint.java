@@ -4,9 +4,9 @@ import java.sql.SQLException;
 import java.sql.Savepoint;
 import java.util.List;
 
-public class JdbcSavepoint extends EntityList<Savepoint> implements Savepoint {
+public class HubSavepoint extends EntityList<Savepoint> implements Savepoint {
 
-	public JdbcSavepoint(List<Savepoint> savepoints) {
+	public HubSavepoint(List<Savepoint> savepoints) {
 		super(savepoints);
 	}
 

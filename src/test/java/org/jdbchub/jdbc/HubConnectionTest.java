@@ -6,20 +6,18 @@ import org.skife.jdbi.v2.Handle;
 import org.skife.jdbi.v2.Query;
 import org.skife.jdbi.v2.Update;
 import org.skife.jdbi.v2.util.StringMapper;
-
 import java.sql.Connection;
 import java.sql.Savepoint;
-
 import static java.util.Arrays.asList;
 import static org.jdbchub.JdbcHubTestUtils.allItems;
 import static org.jdbchub.JdbcHubTestUtils.createTestConnection;
 import static org.junit.Assert.*;
 
-public class JdbcConnectionTest {
+public class HubConnectionTest {
 
 	@Test
 	public void testQuery() throws Exception {
-		JdbcConnection c = createTestConnection();
+		HubConnection c = createTestConnection();
 		try (Handle h = DBI.open(c)) {
 			assertEquals(allItems(), h.select("select * from test_items"));
 		}
@@ -27,7 +25,7 @@ public class JdbcConnectionTest {
 
 	@Test
 	public void testClose() throws Exception {
-		try (JdbcConnection c = createTestConnection()) {
+		try (HubConnection c = createTestConnection()) {
 			assertFalse(c.isClosed());
 
 			c.entity(0).close();
@@ -42,7 +40,7 @@ public class JdbcConnectionTest {
 
 	@Test
 	public void testIsValid() throws Exception {
-		try (JdbcConnection c = createTestConnection()) {
+		try (HubConnection c = createTestConnection()) {
 			assertTrue(c.isValid(1));
 			c.entity(0).close();
 			assertFalse(c.isValid(1));
@@ -51,7 +49,7 @@ public class JdbcConnectionTest {
 
 	@Test
 	public void testSavepoint() throws Exception {
-		try (JdbcConnection c = createTestConnection()) {
+		try (HubConnection c = createTestConnection()) {
 			Handle h = DBI.open(c);
 			Update st = h.createStatement("update test_items set value = ? where name like '%1'");
 			Query<String> q = h.createQuery("select value from test_items where name like '%1'").map(StringMapper.FIRST);
