@@ -14,7 +14,7 @@ public class HubStatement<T extends Statement> extends EntityList<T> implements 
 
 	@Override
 	public ResultSet executeQuery(String sql) throws SQLException {
-		return new JdbcResultSet(this, mapToList(st -> st.executeQuery(sql)));
+		return new HubResultSet(this, mapToList(st -> st.executeQuery(sql)));
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class HubStatement<T extends Statement> extends EntityList<T> implements 
 	@Override
 	public ResultSet getResultSet() throws SQLException {
 		List<ResultSet> rs = mapToList(Statement::getResultSet);
-		return rs.get(0) != null ? new JdbcResultSet(this, rs) : null;
+		return rs.get(0) != null ? new HubResultSet(this, rs) : null;
 	}
 
 	@Override
@@ -177,7 +177,7 @@ public class HubStatement<T extends Statement> extends EntityList<T> implements 
 
 	@Override
 	public ResultSet getGeneratedKeys() throws SQLException {
-		return new JdbcResultSet(this, mapToList(Statement::getGeneratedKeys));
+		return new HubResultSet(this, mapToList(Statement::getGeneratedKeys));
 	}
 
 	@Override

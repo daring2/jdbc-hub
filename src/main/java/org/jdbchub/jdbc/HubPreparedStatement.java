@@ -20,7 +20,7 @@ public class HubPreparedStatement<T extends PreparedStatement> extends HubStatem
 
 	@Override
 	public ResultSet executeQuery() throws SQLException {
-		return new JdbcResultSet(this, mapToList(PreparedStatement::executeQuery));
+		return new HubResultSet(this, mapToList(PreparedStatement::executeQuery));
 	}
 
 	@Override

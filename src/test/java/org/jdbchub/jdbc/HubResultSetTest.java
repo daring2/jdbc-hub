@@ -3,10 +3,10 @@ package org.jdbchub.jdbc;
 import org.junit.Test;
 import java.sql.ResultSet;
 import static org.jdbchub.JdbcHubTestUtils.createTestConnection;
-import static org.jdbchub.jdbc.JdbcResultSetTest.CursorPosition.*;
+import static org.jdbchub.jdbc.HubResultSetTest.CursorPosition.*;
 import static org.junit.Assert.*;
 
-public class JdbcResultSetTest {
+public class HubResultSetTest {
 
 	@Test
 	public void testCursor() throws Exception {

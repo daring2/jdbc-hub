@@ -9,14 +9,14 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-public class JdbcResultSet extends EntityList<ResultSet> implements ResultSet {
+public class HubResultSet extends EntityList<ResultSet> implements ResultSet {
 
 	private final HubStatement<?> statement;
 
 	private int currentIndex;
 	private int rowNumber;
 
-	public JdbcResultSet(HubStatement<?> statement, List<ResultSet> resultSets) {
+	public HubResultSet(HubStatement<?> statement, List<ResultSet> resultSets) {
 		super(resultSets);
 		this.statement = statement;
 	}
