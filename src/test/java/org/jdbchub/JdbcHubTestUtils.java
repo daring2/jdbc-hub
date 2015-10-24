@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import org.jdbchub.jdbc.HubConnection;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
+import org.skife.jdbi.v2.util.StringMapper;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,10 @@ public class JdbcHubTestUtils {
 				items.add(ImmutableMap.of("name", "n" + i + k, "value", "v" + i + k));
 		}
 		return items;
+	}
+
+	public static List<String> selectStringList(Handle h, String sql) {
+		return h.createQuery(sql).map(StringMapper.FIRST).list();
 	}
 
 	private JdbcHubTestUtils() {

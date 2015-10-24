@@ -3,8 +3,8 @@ package org.jdbchub;
 import com.typesafe.config.Config;
 import org.jdbchub.config.DBConfig;
 import org.jdbchub.jdbc.HubConnection;
+import org.jdbchub.jdbc.JdbcConnection;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,7 +38,7 @@ public class HubDataSource {
 
 	private Connection createConnection(DBConfig dbc) throws SQLException {
 		try {
-			return DriverManager.getConnection(dbc.url, dbc.info);
+			return new JdbcConnection(dbc);
 		} catch (SQLException e) {
 			throw new SQLException("Cannot connect to " + dbc.name, e);
 		}

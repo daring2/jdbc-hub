@@ -6,8 +6,8 @@ import org.junit.Test;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 import java.util.List;
-import static org.jdbchub.JdbcHubTestUtils.allItems;
-import static org.jdbchub.JdbcHubTestUtils.createTestConnection;
+import static java.util.Arrays.asList;
+import static org.jdbchub.JdbcHubTestUtils.*;
 import static org.jdbchub.config.ConfigUtils.loadMainConfig;
 import static org.junit.Assert.assertEquals;
 
@@ -31,6 +31,7 @@ public class HubDataSourceTest {
 			HubDataSource d = new HubDataSource(loadMainConfig("c1.conf"));
 			try (Handle h = DBI.open(d.getConnection())) {
 				assertEquals(allItems(), h.select("select * from test_items"));
+				assertEquals(asList("db1", "db2", "db3"), selectStringList(h, "select '${db_name}'"));
 			}
 		}
 	}

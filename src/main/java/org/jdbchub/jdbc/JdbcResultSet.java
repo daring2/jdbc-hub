@@ -617,7 +617,7 @@ public class JdbcResultSet extends EntityList<ResultSet> implements ResultSet {
 
 	@Override
 	public void moveToInsertRow() throws SQLException {
-		throw new UnsupportedOperationException(); // TODO implemen
+		throw new UnsupportedOperationException(); // TODO implement
 	}
 
 	@Override

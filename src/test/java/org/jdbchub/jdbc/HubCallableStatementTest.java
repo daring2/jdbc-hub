@@ -19,7 +19,7 @@ public class HubCallableStatementTest {
 	public void testCall() throws Exception {
 		try (HubConnection c = createTestConnection()) {
 			Handle h = DBI.open(c);
-			h.execute("create alias test_function for \"org.jdbchub.jdbc.JdbcCallableStatementTest.testFunction\"");
+			h.execute("create alias test_function for \"org.jdbchub.jdbc.HubCallableStatementTest.testFunction\"");
 			CallableStatement st = c.prepareCall("{call test_function(?, ?)}");
 			st.setString(1, "nv1");
 			st.setString(2, "%1");
