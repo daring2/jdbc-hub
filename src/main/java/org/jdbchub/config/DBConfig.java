@@ -1,12 +1,11 @@
 package org.jdbchub.config;
 
 import com.typesafe.config.Config;
-
 import java.util.Properties;
-
 import static org.jdbchub.config.ConfigUtils.getOptString;
 
 public class DBConfig {
+
 	public final String name;
 	public final String url;
 	public final Properties info;
