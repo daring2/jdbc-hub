@@ -7,7 +7,7 @@ import org.jdbchub.jdbc.JdbcConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
 import static org.jdbchub.config.ConfigPath.DbConfigs;
 import static org.jdbchub.jdbc.JdbcFunction.jdbcFunc;
 
@@ -26,13 +26,13 @@ public class HubDataSource {
 		return c.root().keySet().stream().sorted()
 			.filter(n -> !n.equals("default"))
 			.map(n -> new DBConfig(n, c.getConfig(n).withFallback(dc)))
-			.collect(Collectors.toList());
+			.collect(toList());
 	}
 
 	public Connection getConnection() throws SQLException {
 		List<Connection> cons = dbConfigs.parallelStream()
 			.map(jdbcFunc(this::createConnection))
-			.collect(Collectors.toList());
+			.collect(toList());
 		return new HubConnection(cons);
 	}
 

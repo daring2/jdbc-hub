@@ -8,8 +8,8 @@ import static org.jdbchub.sql.SqlUtils.quoteSql;
 
 public class DefaultSqlTransformer implements SqlTransformer {
 
-	private final DBConfig dbConfig;
-	private final StrSubstitutor substitutor;
+	final DBConfig dbConfig;
+	final StrSubstitutor substitutor;
 
 	public DefaultSqlTransformer(DBConfig dbConfig) {
 		this.dbConfig = dbConfig;
