@@ -12,7 +12,7 @@ public class DefaultSqlTransformerTest {
 		DBConfig c = new DBConfig("db1", configFromString("url = url1"));
 		SqlTransformer tr = new DefaultSqlTransformer(c);
 		assertEquals("select 'v1'", tr.transform("select 'v1'"));
-		assertEquals("select 'db1'", tr.transform("select '${db_name}'"));
+		assertEquals("select 'db1'", tr.transform("select ${db_name}"));
 	}
 
 }

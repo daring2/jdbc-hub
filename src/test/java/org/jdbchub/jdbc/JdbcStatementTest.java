@@ -12,7 +12,7 @@ public class JdbcStatementTest {
 	public void testTransformSql() throws Exception {
 		DBConfig dbc = new DBConfig("db1", configFromString("url = \"jdbc:h2:mem:db1\""));
 		try (JdbcConnection c = new JdbcConnection(dbc)) {
-			ResultSet rs = c.createStatement().executeQuery("select '${db_name}'");
+			ResultSet rs = c.createStatement().executeQuery("select ${db_name}");
 			rs.next();
 			assertEquals("db1", rs.getString(1));
 		}

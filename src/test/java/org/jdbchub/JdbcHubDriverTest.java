@@ -26,7 +26,7 @@ public class JdbcHubDriverTest {
 		try (HubConnection hc = createTestConnection(); Connection c = driver.connect(url, null)) {
 			Handle h = DBI.open(c);
 			assertEquals(allItems(), h.select("select * from test_items"));
-			assertEquals(asList("db1", "db2", "db3"), selectStringList(h, "select '${db_name}'"));
+			assertEquals(asList("db1", "db2", "db3"), selectStringList(h, "select ${db_name}"));
 
 		}
 	}
