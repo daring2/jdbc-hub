@@ -23,10 +23,11 @@ public class ConfigUtils {
 	}
 
 	public static Config loadMainConfig(String file) {
-		return defaultOverrides()
+		ClassLoader cl = ConfigUtils.class.getClassLoader();
+		return defaultOverrides(cl)
 			.withFallback(parseFile(new File(file)))
-			.withFallback(parseResources(file))
-			.withFallback(defaultReference())
+			.withFallback(parseResources(cl, file))
+			.withFallback(defaultReference(cl))
 			.resolve();
 	}
 
