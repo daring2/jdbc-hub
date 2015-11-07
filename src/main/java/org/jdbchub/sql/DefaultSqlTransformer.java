@@ -4,6 +4,7 @@ import org.apache.commons.lang3.text.StrSubstitutor;
 import org.jdbchub.config.DBConfig;
 import java.util.HashMap;
 import java.util.Map;
+import static org.jdbchub.sql.SqlUtils.quoteSql;
 
 public class DefaultSqlTransformer implements SqlTransformer {
 
@@ -17,7 +18,7 @@ public class DefaultSqlTransformer implements SqlTransformer {
 
 	private StrSubstitutor buildSubstitutor() {
 		Map<String, String> vars = new HashMap<>();
-		vars.put("db_name", "'" + dbConfig.name + "'");
+		vars.put("db_name", quoteSql(dbConfig.name));
 		return new StrSubstitutor(vars);
 	}
 
