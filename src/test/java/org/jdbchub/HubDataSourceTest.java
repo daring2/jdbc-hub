@@ -34,7 +34,7 @@ public class HubDataSourceTest {
 		assertEquals(2, trs.size());
 		for (int i = 1; i <= 2; i++) {
 			TestSqlTransfomer tr = (TestSqlTransfomer) trs.get(i - 1);
-			assertEquals("db" + i, tr.dbName);
+			assertEquals("" + i, tr.index);
 		}
 	}
 
@@ -45,7 +45,7 @@ public class HubDataSourceTest {
 			try (Handle h = DBI.open(d.getConnection())) {
 				assertEquals(allItems(), h.select("select * from test_items"));
 				assertEquals(asList("db1", "db2", "db3"), selectStringList(h, "select ${db_name}"));
-				assertEquals(asList("db1", "db2", "tr_db_name"), selectStringList(h, "select 'tr_db_name'"));
+				assertEquals(asList("1", "2", "tr_index"), selectStringList(h, "select 'tr_index'"));
 			}
 		}
 	}

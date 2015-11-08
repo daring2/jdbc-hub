@@ -5,20 +5,21 @@ import org.jdbchub.config.DBConfig;
 
 public class TestSqlTransfomer implements SqlTransformer {
 
-	public final String dbName;
+	public final String index;
 
 	public TestSqlTransfomer(Config c) {
-		this.dbName = c.getString("dbName");
+		this.index = c.getString("index");
 	}
 
 	@Override
 	public boolean isEnabled(DBConfig dbc) {
-		return dbc.name.equals(dbName);
+		return dbc.name.endsWith(index);
 	}
 
 	@Override
 	public String transform(String sql) {
-		return sql.replace("tr_db_name", dbName);
+		return sql.replace("tr_index", index)
+			.replace("tr_key" + index, "tr_value" + index);
 	}
 
 }
