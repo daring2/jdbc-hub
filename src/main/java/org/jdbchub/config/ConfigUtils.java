@@ -1,6 +1,7 @@
 package org.jdbchub.config;
 
 import com.typesafe.config.Config;
+import com.typesafe.config.ConfigParseOptions;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -28,8 +29,9 @@ public class ConfigUtils {
 
 	public static Config loadMainConfig(String file) {
 		ClassLoader cl = ConfigUtils.class.getClassLoader();
+		ConfigParseOptions parseOpts = ConfigParseOptions.defaults().setClassLoader(cl);
 		return defaultOverrides(cl)
-			.withFallback(parseFile(new File(file)))
+			.withFallback(parseFile(new File(file), parseOpts))
 			.withFallback(parseResources(cl, file))
 			.withFallback(defaultReference(cl))
 			.resolve();
