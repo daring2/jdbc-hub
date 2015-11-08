@@ -23,6 +23,11 @@ public class DefaultSqlTransformer implements SqlTransformer {
 	}
 
 	@Override
+	public boolean isEnabled(DBConfig dbc) {
+		return true;
+	}
+
+	@Override
 	public String transform(String sql) {
 		return substitutor.replace(sql);
 	}

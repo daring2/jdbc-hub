@@ -1,17 +1,21 @@
 package org.jdbchub.sql;
 
 import com.typesafe.config.Config;
+import org.jdbchub.config.DBConfig;
 import java.util.List;
 import java.util.regex.Pattern;
 import static java.util.stream.Collectors.toList;
+import static org.jdbchub.config.ConfigUtils.getOptString;
 
 public class RegexSqlTransformer implements SqlTransformer {
 
 	final Config config;
+	final String urlPattern;
 	final List<Rule> rules;
 
 	public RegexSqlTransformer(Config config) {
 		this.config = config;
+		this.urlPattern = getOptString(config, "urlPattern").orElse(".*");
 		this.rules = buildRules();
 	}
 
@@ -20,6 +24,11 @@ public class RegexSqlTransformer implements SqlTransformer {
 		return rc.root().entrySet().stream()
 			.map(ce -> new Rule(ce.getKey(), "" + ce.getValue().unwrapped()))
 			.collect(toList());
+	}
+
+	@Override
+	public boolean isEnabled(DBConfig dbc) {
+		return dbc.url.matches(urlPattern);
 	}
 
 	@Override
