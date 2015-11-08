@@ -22,6 +22,10 @@ public class ConfigUtils {
 		return parseString(str);
 	}
 
+	public static Config configFromResource(String resource) {
+		return parseResources(resource);
+	}
+
 	public static Config loadMainConfig(String file) {
 		ClassLoader cl = ConfigUtils.class.getClassLoader();
 		return defaultOverrides(cl)
