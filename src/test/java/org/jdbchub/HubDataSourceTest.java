@@ -45,6 +45,7 @@ public class HubDataSourceTest {
 			try (Handle h = DBI.open(d.getConnection())) {
 				assertEquals(allItems(), h.select("select * from test_items"));
 				assertEquals(asList("db1", "db2", "db3"), selectStringList(h, "select ${db_name}"));
+				assertEquals(asList("db1", "db2", "tr_db_name"), selectStringList(h, "select 'tr_db_name'"));
 			}
 		}
 	}

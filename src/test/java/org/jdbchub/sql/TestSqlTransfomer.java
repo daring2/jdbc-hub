@@ -18,7 +18,7 @@ public class TestSqlTransfomer implements SqlTransformer {
 
 	@Override
 	public String transform(String sql) {
-		return sql;
+		return sql.replace("tr_db_name", dbName);
 	}
 
 }
