@@ -2,6 +2,7 @@ package org.jdbchub.config;
 
 import org.junit.Test;
 import java.util.Properties;
+import static org.jdbchub.JdbcHubTestUtils.dbConfig;
 import static org.jdbchub.config.ConfigUtils.configFromString;
 import static org.junit.Assert.assertEquals;
 
@@ -9,7 +10,7 @@ public class DBConfigTest {
 
 	@Test
 	public void testBuild() {
-		DBConfig c1 = new DBConfig("c1", configFromString("url = url1"));
+		DBConfig c1 = dbConfig("c1", "url1");
 		assertEquals("c1", c1.name);
 		assertEquals("url1", c1.url);
 		assertEquals(new Properties(), c1.info);

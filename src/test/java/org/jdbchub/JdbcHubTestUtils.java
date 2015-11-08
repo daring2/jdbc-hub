@@ -14,8 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import static java.util.Collections.emptyList;
+import static org.jdbchub.config.ConfigUtils.configFromMap;
 
 public class JdbcHubTestUtils {
+
+	public static DBConfig dbConfig(String name, String url) {
+		return new DBConfig(name, configFromMap(ImmutableMap.of("url", url)));
+	}
 
 	public static HubConnection createTestConnection() {
 		List<Connection> cons = new ArrayList<>();

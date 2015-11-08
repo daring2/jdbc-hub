@@ -3,6 +3,7 @@ package org.jdbchub.sql;
 import com.typesafe.config.Config;
 import org.jdbchub.config.DBConfig;
 import org.junit.Test;
+import static org.jdbchub.JdbcHubTestUtils.dbConfig;
 import static org.jdbchub.config.ConfigUtils.configFromString;
 import static org.junit.Assert.*;
 
@@ -10,8 +11,8 @@ public class RegexSqlTransformerTest {
 
 	@Test
 	public void testIsEnabled() {
-		DBConfig dbc1 = new DBConfig("dbc1", configFromString("url = url1"));
-		DBConfig dbc2 = new DBConfig("dbc1", configFromString("url = url2"));
+		DBConfig dbc1 = dbConfig("dbc1", "url1");
+		DBConfig dbc2 = dbConfig("dbc2", "url2");
 
 		Config c1 = configFromString("rules {}");
 		RegexSqlTransformer tr1 = new RegexSqlTransformer(c1);
