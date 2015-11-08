@@ -5,7 +5,6 @@ import java.util.List;
 import static java.lang.String.format;
 import static org.jdbchub.config.ConfigPath.ConfigLoaders;
 import static org.jdbchub.config.ConfigPath.DriverClasses;
-import static org.jdbchub.config.ConfigUtils.getConfigList;
 import static org.jdbchub.config.ConfigUtils.loadMainConfig;
 
 public class MainConfigLoader {
@@ -17,8 +16,10 @@ public class MainConfigLoader {
 	
 	public Config load() {
 		loadDriverClasses();
-		List<Config> lcs = getConfigList(mainConfig, ConfigLoaders.path);
-		return lcs.stream().reduce(mainConfig, (rc, lc) -> applyLoader(lc).withFallback(rc));
+		Config lcs = mainConfig.getConfig(ConfigLoaders.path);
+		return lcs.root().keySet().stream()
+			.map(n -> applyLoader(n, lcs.getConfig(n)))
+			.reduce(mainConfig, Config::withFallback);
 	}
 
 	private void loadDriverClasses() {
@@ -35,12 +36,12 @@ public class MainConfigLoader {
 		}
 	}
 
-	private Config applyLoader(Config lc) {
+	private Config applyLoader(String name, Config lc) {
 		try {
 			ConfigLoader loader = (ConfigLoader) Class.forName(lc.getString("class")).newInstance();
 			return loader.load(mainConfig, lc);
 		} catch (Exception e) {
-			String msg = format("Cannot apply config loader %s", lc);
+			String msg = format("Cannot apply config loader '%s'", name);
 			throw new RuntimeException(msg, e);
 		}
 	}
