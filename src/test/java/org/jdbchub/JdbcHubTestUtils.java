@@ -1,14 +1,19 @@
 package org.jdbchub;
 
 import com.google.common.collect.ImmutableMap;
+import org.jdbchub.config.DBConfig;
 import org.jdbchub.jdbc.HubConnection;
+import org.jdbchub.jdbc.JdbcConnection;
+import org.jdbchub.sql.DefaultSqlTransformer;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 import org.skife.jdbi.v2.util.StringMapper;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import static java.util.Collections.emptyList;
 
 public class JdbcHubTestUtils {
 
@@ -31,6 +36,10 @@ public class JdbcHubTestUtils {
 				items.add(ImmutableMap.of("name", "n" + i + k, "value", "v" + i + k));
 		}
 		return items;
+	}
+
+	public static JdbcConnection newJdbcConnection(DBConfig dbc) throws SQLException {
+		return new JdbcConnection(dbc, new DefaultSqlTransformer(dbc, emptyList()));
 	}
 
 	public static List<String> selectStringList(Handle h, String sql) {

@@ -2,6 +2,8 @@ package org.jdbchub;
 
 import org.jdbchub.config.DBConfig;
 import org.jdbchub.jdbc.HubConnection;
+import org.jdbchub.sql.SqlTransformer;
+import org.jdbchub.sql.TestSqlTransfomer;
 import org.junit.Test;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
@@ -22,6 +24,17 @@ public class HubDataSourceTest {
 			DBConfig c = dbs.get(i - 1);
 			assertEquals("db" + i, c.name);
 			assertEquals("jdbc:h2:mem:db" + i, c.url);
+		}
+	}
+
+	@Test
+	public void testBuildSqlTransformers() {
+		HubDataSource d = new HubDataSource(loadMainConfig("c1.conf"));
+		List<SqlTransformer> trs = d.sqlTransformers;
+		assertEquals(2, trs.size());
+		for (int i = 1; i <= 2; i++) {
+			TestSqlTransfomer tr = (TestSqlTransfomer) trs.get(i - 1);
+			assertEquals("db" + i, tr.dbName);
 		}
 	}
 
