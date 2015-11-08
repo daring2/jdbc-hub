@@ -18,7 +18,7 @@ public class MainConfigLoader {
 	public Config load() {
 		loadDriverClasses();
 		List<Config> lcs = getConfigList(mainConfig, ConfigLoaders.path);
-		return lcs.stream().reduce(mainConfig, (rc, lc) -> callLoader(lc).withFallback(rc));
+		return lcs.stream().reduce(mainConfig, (rc, lc) -> applyLoader(lc).withFallback(rc));
 	}
 
 	private void loadDriverClasses() {
@@ -35,12 +35,12 @@ public class MainConfigLoader {
 		}
 	}
 
-	private Config callLoader(Config lc) {
+	private Config applyLoader(Config lc) {
 		try {
 			ConfigLoader loader = (ConfigLoader) Class.forName(lc.getString("class")).newInstance();
 			return loader.load(mainConfig, lc);
 		} catch (Exception e) {
-			String msg = format("Cannot call config loader '%s'", lc);
+			String msg = format("Cannot apply config loader %s", lc);
 			throw new RuntimeException(msg, e);
 		}
 	}
