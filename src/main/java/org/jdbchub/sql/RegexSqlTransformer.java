@@ -43,7 +43,7 @@ public class RegexSqlTransformer implements SqlTransformer {
 		final String replacement;
 
 		Rule(String regex, String replacement) {
-			this.pattern = Pattern.compile(regex);
+			this.pattern = Pattern.compile("(?is)" + regex);
 			this.replacement = replacement;
 		}
 
