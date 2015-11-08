@@ -1,14 +1,14 @@
 package org.jdbchub.util;
 
 import org.jdbchub.config.DBConfig;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.function.Predicate;
 import static java.sql.DriverManager.getConnection;
+import static java.util.stream.Collectors.toList;
 
 public class JdbcHubUtils {
 
@@ -38,6 +38,10 @@ public class JdbcHubUtils {
 			}
 			return result;
 		}
+	}
+
+	public static <T> List<T> filter(List<T> list, Predicate<? super T> pr) {
+		return list.stream().filter(pr).collect(toList());
 	}
 
 	private JdbcHubUtils() {

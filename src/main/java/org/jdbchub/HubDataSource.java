@@ -14,6 +14,7 @@ import static java.util.stream.Collectors.toList;
 import static org.jdbchub.config.ConfigPath.DbConfigs;
 import static org.jdbchub.config.ConfigPath.SqlTransformers;
 import static org.jdbchub.jdbc.JdbcFunction.jdbcFunc;
+import static org.jdbchub.util.JdbcHubUtils.filter;
 
 public class HubDataSource {
 	final Config config;
@@ -61,7 +62,7 @@ public class HubDataSource {
 
 	private Connection createConnection(DBConfig dbc) throws SQLException {
 		try {
-			List<SqlTransformer> trs = sqlTransformers.stream().filter(tr -> tr.isEnabled(dbc)).collect(toList());
+			List<SqlTransformer> trs = filter(sqlTransformers, tr -> tr.isEnabled(dbc));
 			return new JdbcConnection(dbc, new DefaultSqlTransformer(dbc, trs));
 		} catch (SQLException e) {
 			throw new SQLException("Cannot connect to " + dbc.name, e);
