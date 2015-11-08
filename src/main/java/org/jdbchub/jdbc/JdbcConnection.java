@@ -1,7 +1,6 @@
 package org.jdbchub.jdbc;
 
 import org.jdbchub.config.DBConfig;
-import org.jdbchub.sql.DefaultSqlTransformer;
 import org.jdbchub.sql.SqlTransformer;
 import java.sql.*;
 import java.util.Map;
@@ -15,10 +14,10 @@ public class JdbcConnection implements Connection {
 	final Connection target;
 	final SqlTransformer sqlTransformer;
 
-	public JdbcConnection(DBConfig dbConfig) throws SQLException {
+	public JdbcConnection(DBConfig dbConfig, SqlTransformer sqlTransformer) throws SQLException {
 		this.dbConfig = dbConfig;
 		this.target = getConnection(dbConfig.url, dbConfig.info);
-		this.sqlTransformer = new DefaultSqlTransformer(dbConfig);
+		this.sqlTransformer = sqlTransformer;
 	}
 
 	String transformSql(String sql) {
