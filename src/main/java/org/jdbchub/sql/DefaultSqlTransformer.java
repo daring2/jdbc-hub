@@ -3,16 +3,19 @@ package org.jdbchub.sql;
 import org.apache.commons.lang3.text.StrSubstitutor;
 import org.jdbchub.config.DBConfig;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import static org.jdbchub.sql.SqlUtils.quoteSql;
 
 public class DefaultSqlTransformer implements SqlTransformer {
 
 	final DBConfig dbConfig;
+	final List<SqlTransformer> sqlTransformers;
 	final StrSubstitutor substitutor;
 
-	public DefaultSqlTransformer(DBConfig dbConfig) {
+	public DefaultSqlTransformer(DBConfig dbConfig, List<SqlTransformer> sqlTransformers) {
 		this.dbConfig = dbConfig;
+		this.sqlTransformers = sqlTransformers;
 		this.substitutor = buildSubstitutor();
 	}
 
@@ -29,7 +32,10 @@ public class DefaultSqlTransformer implements SqlTransformer {
 
 	@Override
 	public String transform(String sql) {
-		return substitutor.replace(sql);
+		sql = substitutor.replace(sql);
+		for (SqlTransformer tr : sqlTransformers)
+			sql = tr.transform(sql);
+		return sql;
 	}
 
 }

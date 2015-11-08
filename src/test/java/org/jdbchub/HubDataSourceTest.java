@@ -34,7 +34,7 @@ public class HubDataSourceTest {
 		assertEquals(2, trs.size());
 		for (int i = 1; i <= 2; i++) {
 			TestSqlTransfomer tr = (TestSqlTransfomer) trs.get(i - 1);
-			assertEquals("" + i, tr.index);
+			assertEquals(i, tr.index);
 		}
 	}
 
