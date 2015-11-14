@@ -16,8 +16,7 @@ dependencies {
 	testCompile 'org.jdbi:jdbi:2.63.1'
 }
 
-task copyDeps(type: Copy) {
-	dependsOn build
+task copyDeps(type: Copy, dependsOn: build) {
 	from configurations.runtime
 	into libsDir
 }
