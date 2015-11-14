@@ -13,16 +13,18 @@ public class RegexSqlTransformerTest {
 	public void testIsEnabled() {
 		DBConfig dbc1 = dbConfig("dbc1", "url1");
 		DBConfig dbc2 = dbConfig("dbc2", "url2");
+		DBConfig dbc3 = dbConfig("dbc3", "url3");
 
 		Config c1 = configFromString("rules {}");
 		RegexSqlTransformer tr1 = new RegexSqlTransformer(c1);
 		assertTrue(tr1.isEnabled(dbc1));
 		assertTrue(tr1.isEnabled(dbc2));
 
-		Config c2 = configFromString("urlPattern = \".*1\", rules {}");
+		Config c2 = configFromString("urlFilter = \".*(1|2)\", urlNotFilter = \".*2\", rules {}");
 		RegexSqlTransformer tr2 = new RegexSqlTransformer(c2);
 		assertTrue(tr2.isEnabled(dbc1));
 		assertFalse(tr2.isEnabled(dbc2));
+		assertFalse(tr2.isEnabled(dbc3));
 	}
 
 	@Test

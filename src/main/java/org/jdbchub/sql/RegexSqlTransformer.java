@@ -10,12 +10,14 @@ import static org.jdbchub.config.ConfigUtils.getOptString;
 public class RegexSqlTransformer implements SqlTransformer {
 
 	final Config config;
-	final String urlPattern;
+	final String urlFilter;
+	final String urlNotFilter;
 	final List<Rule> rules;
 
 	public RegexSqlTransformer(Config config) {
 		this.config = config;
-		this.urlPattern = getOptString(config, "urlPattern").orElse(".*");
+		this.urlFilter = getOptString(config, "urlFilter").orElse(".*");
+		this.urlNotFilter = getOptString(config, "urlNotFilter").orElse("");
 		this.rules = buildRules();
 	}
 
@@ -28,7 +30,7 @@ public class RegexSqlTransformer implements SqlTransformer {
 
 	@Override
 	public boolean isEnabled(DBConfig dbc) {
-		return dbc.url.matches(urlPattern);
+		return dbc.url.matches(urlFilter) && !dbc.url.matches(urlNotFilter);
 	}
 
 	@Override
