@@ -22,6 +22,7 @@ public class DefaultSqlTransformer implements SqlTransformer {
 	private StrSubstitutor buildSubstitutor() {
 		Map<String, String> vars = new HashMap<>();
 		vars.put("db_name", quoteSql(dbConfig.name));
+		vars.put("db_url", quoteSql(dbConfig.url));
 		return new StrSubstitutor(vars);
 	}
 

@@ -16,7 +16,8 @@ public class DefaultSqlTransformerTest {
 			new TestSqlTransfomer(2)
 		));
 		assertEquals("select 'v1'", tr.transform("select 'v1'"));
-		assertEquals("select 'db1', 'v1 v2 tr_prop3'", tr.transform("select ${db_name}, 'tr_prop1 tr_prop2 tr_prop3'"));
+		String sql1 = "select ${db_name}, ${db_url}, 'tr_prop1 tr_prop2 tr_prop3'";
+		assertEquals("select 'db1', 'url1', 'v1 v2 tr_prop3'", tr.transform(sql1));
 	}
 
 }
